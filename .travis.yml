@@ -3,10 +3,6 @@ before_install:
   - chmod +x gradlew
 script:
   - ./gradlew build --info
-services:
-  - postgresql
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
 #deploy:
 #  provider: heroku
 #  api_key:
