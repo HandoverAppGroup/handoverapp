@@ -42,6 +42,26 @@ public class IntegrationTests {
     }
 
     @Test
+    public void shouldGetAllTasks() throws Exception {
+
+        mockMvc.perform(post("/api/tasks")
+                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward B bed 2\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", containsString("tasks/")));
+
+        mockMvc.perform(post("/api/tasks")
+                .content("{\"description\":\"Do some other things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward B bed 2\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", containsString("tasks/")));
+
+        mockMvc.perform(get("/api/tasks"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)));
+    }
+
+    @Test
     public void completeTaskShouldSetCompletionDateAndDoctor() throws Exception {
         // GIVEN
 

@@ -28,6 +28,16 @@ public class TaskController {
 
     // GET endpoints
 
+    @GetMapping("/tasks")
+    ResponseEntity<List<TaskDTO>> all(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "30") int size
+    ) {
+        Pageable paging = PageRequest.of(page, size);
+        List<TaskDTO> responseBody = taskService.getAll(paging);
+        return ResponseEntity.ok().body(responseBody);
+    }
+
     @GetMapping("/tasks/byDate")
     ResponseEntity<List<TaskDTO>> byDate(
             @RequestParam String earliestDate,
