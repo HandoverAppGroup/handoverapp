@@ -1,18 +1,11 @@
-#language: java
-#before_install:
-#  - chmod +x gradlew
-#script:
-#  - ./gradlew build --info
-#before_cache:
-#  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-#  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-#cache:
-#  directories:
-#    - $HOME/.gradle/caches/
-#    - $HOME/.gradle/wrapper/
+language: java
+before_install:
+  - chmod +x gradlew
+script:
+  - ./gradlew build --info
 #deploy:
 #  provider: heroku
 #  api_key:
-#    secure: "RsF0ghPn+U+MYi6QS0TWHgGWQcgGVvDUP6I3X77dNdsNIstFmm1Wq7UgDkEGjOJyxzlzFuoDpT+EHfHG9DfPmQGT/+bYMHgCRrEKxPdEpRlHAflQ4JhRRT8pIoKC93bKnuZDPSEsqNo2Imvd0FCabU59H2EVVhcQiWLCaIPDizPFwTOi49GvupIAzR/SlaXjM/5cUPDxWwxNBjC/Gs5r4BZiog9KzK7ukEj9iVf1Zv+fth/aHYw3/zbt3693p7PvtfvOON1MI1JkGxyMvNfOHvUYTDg1HN8Eq3Aemkk7yhgHFsoT6rZ2QgVMWWKEQ85YE2OHjIqWoVClO4L8E4nYhRSwoNccNOc02zjtftMD8ldNRm8Sc06yauvj/38FLMF/X/XyrCI2kyWLkioH+F8RkcrVokzcHBrtRUKJ6avOV8r/nfHoRR2SD2+LFOkAySWJhgukwaLiwu4E6AV6PUhCfTt5APZliNFX2hp/M59RbxouTop6fem88hynhZn2YIi43DAXYNFfJsa/d7NrCdQM2CrJCOgZG1fo79MY1wZn2ExyksLlubvuyaV5gi5H2da9f+6w/yVCmWPyQ04WFf4eD29WzkK97W8o9jpmc2YEl2nU1JI8w54EvOu3XUbiNxZxHK1dEWnRJ8O2baN0haXDDE9hWGuSAFBiUKeCdBIpLV0="
-#  app: cabbagegrapes
+#    secure:
+#  app: handoverapp
 #  skip_cleanup: true
