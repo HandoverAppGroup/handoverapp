@@ -12,8 +12,8 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
 
 - Open in IntelliJ
 - Alter `src/main/resources/application.properties` to reflect your own database setup (database url, username, password). Don't forget to set back to heroku settings before pushing to main.
-- Run the bootRun application gradle task to run the api locally - you should then be able to post and get tasks at localhost:8080/api/tasks
-- Additional endpoints allow you to filter by date, status and patient (see `TaskController`)
+- Run the bootRun application gradle task to run the api locally - you should then be able to post and get tasks at `localhost:8080/api/tasks`
+- Additional endpoints allow you to filter by date, status and patient
 - Results are paginated, with the default page size being 30 items
 - Run the test verification gradle task to run tests
 
@@ -26,34 +26,21 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
 
 - GET `/tasks` : list all tasks
 - GET `/tasks/today` : list all today's tasks
-- GET `/tasks/uncompleted` : get all uncompleted tasks
-- GET `/tasks/id` : get a task by id
+- GET `/tasks/uncompleted` : list all uncompleted tasks
+- GET `/tasks/{id}` : retrieve a task by id
+- GET `/tasks/byDate?earliestDate={yyyy-MM-dd-hh-mm}&latestDate={yyyy-MM-dd-hh-mm}` : list tasks within a certain date range
+- GET `/tasks/byPatient?mrn={mrn}` : list all tasks for a patient
 
-## POST Endpoints
+### Addition paging query parameters
 
-- POST `/tasks` : post a new task
-- POST `/tasks/id/complete` : complete a task (json body is a Doctor object who is the task completer)
+- You can always add the `page={page number}` and `size={page size}` query parameters to paginate through many results
+- For task lists longer than 30 items, the default page size is 30, and the default page number is 0 (the first page)
 
-## PUT Endpoints
+### Example JSON Responses
 
-- PUT `/tasks/id` : change task details (cannot change date created or id)
+Note: all GET calls return the 200 status code if successful
 
-## DELETE Endpoints 
-
-- DELETE `/tasks/id` : delete task by id
-
-## Example JSON
-
-### A doctor
-
-```json
-{
-  "name": "Dr. Donald Duck",
-  "grade": "B"
-}
-```
-
-### An uncompleted task
+#### An uncompleted task
 
 ```json
 {
@@ -74,7 +61,7 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
 }
 ```
 
-### A completed task
+#### A completed task
 
 ```json
 {
@@ -97,3 +84,55 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
   }
 }
 ```
+
+
+
+## POST Endpoints
+
+- POST `/tasks` : post a new task (successful creation will return 201 status code)
+
+```json
+{
+  "description": "Cut patient's leg off",
+  "gradeRequired": "A",
+  "patientMrn": "565656",
+  "patientClinicalSummary": "Infected leg wound - needs amputation",
+  "patientLocation": "Somewhere in Charing Cross Hospital",
+  "creator": {
+    "name": "Dr. Donald Duck",
+    "grade": "B"
+  }
+}
+```
+
+- POST `/tasks/{id}/complete` : complete a task (json body is a Doctor object who is the task completer) (successful completion will return 200 status code)
+
+```json
+{
+  "name": "Dr. Donald Duck",
+  "grade": "B"
+}
+```
+
+## PUT Endpoints
+
+- PUT `/tasks/id` : change task details (successful edit will return 200 status code)
+
+```json
+{
+  "description": "Cut patient's arm off",
+  "gradeRequired": "B",
+  "patientMrn": "565656",
+  "patientClinicalSummary": "Infected arm - needs amputation",
+  "patientLocation": "Somewhere specific in Charing Cross Hospital",
+  "creator": {
+    "name": "Dr. Donald Duck",
+    "grade": "B"
+  }
+}
+```
+
+## DELETE Endpoints 
+
+- DELETE `/tasks/id` : delete task by id (successful deletion will return 204 status code)
+
