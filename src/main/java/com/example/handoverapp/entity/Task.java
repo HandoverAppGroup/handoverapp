@@ -20,7 +20,7 @@ public class Task {
     private String description;
     private String gradeRequired;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn
     private Patient patient;
 
