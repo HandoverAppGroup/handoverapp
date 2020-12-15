@@ -175,13 +175,15 @@ public class IntegrationTests {
         String location = mvcResult.getResponse().getHeader("Location");
 
         mockMvc.perform(put(location)
-                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward A bed 2\"}")
+                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward A bed 2\",\"plannedCompleter\":{\"name\":\"Jennifer\", \"grade\":\"A\"}}}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get(location))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value("Do some things"))
+                .andExpect(jsonPath("$.plannedCompleter.name").value("Jennifer"))
+                .andExpect(jsonPath("$.plannedCompleter.grade").value("A"))
                 .andExpect(jsonPath("$.patientLocation").value("Ward A bed 2"));
     }
 

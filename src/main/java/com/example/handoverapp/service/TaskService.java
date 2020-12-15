@@ -129,6 +129,7 @@ public class TaskService {
         }
         taskToUpdate.setCompleter(taskDTO.getCompleter());
         taskToUpdate.setCreator(taskDTO.getCreator());
+        taskToUpdate.setPlannedCompleter(taskDTO.getPlannedCompleter());
         boolean isCompleted = taskDTO.isCompleted();
         if (isCompleted && !taskToUpdate.isCompleted()){
             taskToUpdate.setCompleted(taskDTO.isCompleted());
