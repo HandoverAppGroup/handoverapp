@@ -77,6 +77,16 @@ public class TaskService {
         }
     }
 
+    public Optional<TaskDTO> claim(Doctor d, long id) {
+        Optional<Task> opTask = tr.findById(id);
+        if (opTask.isPresent()) {
+            Task claimed = claimTask(opTask.get(), d);
+            return Optional.of(new TaskDTO(claimed));
+        } else {
+            return Optional.empty();
+        }
+    }
+
     public TaskDTO create(TaskDTO t) {
         return new TaskDTO(updateFromDTO(t, new Task()));
     }
@@ -135,6 +145,11 @@ public class TaskService {
         task.setCompleted(true);
         task.setDateCompleted(new Date());
         task.setCompleter(doctor);
+        return tr.save(task);
+    }
+
+    private Task claimTask(Task task, Doctor doctor) {
+        task.setPlannedCompleter(doctor);
         return tr.save(task);
     }
 

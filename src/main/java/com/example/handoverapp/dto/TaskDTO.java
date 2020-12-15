@@ -25,6 +25,7 @@ public class TaskDTO {
 
     private Doctor creator;
     private Doctor completer;
+    private Doctor plannedCompleter;
 
     public TaskDTO() {}
 
@@ -37,6 +38,7 @@ public class TaskDTO {
         this.gradeRequired = t.getGradeRequired();
         this.completer = t.getCompleter();
         this.creator = t.getCreator();
+        this.plannedCompleter = t.getPlannedCompleter();
         this.id = t.getId();
         if (p != null) {
             this.patientMrn = p.getMrn();
@@ -119,5 +121,13 @@ public class TaskDTO {
 
     public long getId() {
         return id;
+    }
+
+    public Doctor getPlannedCompleter() {
+        return plannedCompleter;
+    }
+
+    public void setPlannedCompleter(Doctor plannedCompleter) {
+        this.plannedCompleter = plannedCompleter;
     }
 }

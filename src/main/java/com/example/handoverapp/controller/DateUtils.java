@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public class DateUtils {
 
-    public static Date getYesterday() {
+    public static Date getRecent() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate today = LocalDate.now();
-        LocalDate yesterday = today.minusDays(1);
+        LocalDate yesterday = today.minusDays(2);
         return Date.from(yesterday.atStartOfDay(defaultZoneId).toInstant());
     }
 

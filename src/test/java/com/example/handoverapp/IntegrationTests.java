@@ -96,6 +96,34 @@ public class IntegrationTests {
 
     }
 
+    @Test
+    public void claimTaskShouldSetPlannedCompleter() throws Exception {
+        // GIVEN
+
+        MvcResult mvcResult = mockMvc.perform(post("/api/tasks")
+                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward B bed 2\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String location = mvcResult.getResponse().getHeader("Location");
+
+        // WHEN
+
+        mockMvc.perform(post(location+"/claim")
+                .content("{\"name\":\"Dr Stephens\",\"grade\":\"A\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        // THEN
+
+        mockMvc.perform(get(location)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value("Do some things"))
+                .andExpect(jsonPath("$.plannedCompleter.name").value("Dr Stephens"))
+                .andExpect(jsonPath("$.plannedCompleter.grade").value("A"));
+
+    }
+
 
     @Test
     public void shouldRetrieveEntity() throws Exception {
