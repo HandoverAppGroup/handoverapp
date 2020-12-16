@@ -100,6 +100,7 @@ public class IntegrationTests {
     }
 
     @Test
+    @WithMockUser
     public void claimTaskShouldSetPlannedCompleter() throws Exception {
         // GIVEN
 
