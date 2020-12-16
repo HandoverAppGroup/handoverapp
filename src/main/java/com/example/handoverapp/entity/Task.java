@@ -38,6 +38,13 @@ public class Task {
     })
     private Doctor completer;
 
+    @Embedded
+    @AttributeOverrides(value = {
+            @AttributeOverride(name = "name", column = @Column(name = "plannedCompleterName")),
+            @AttributeOverride(name = "grade", column = @Column(name = "plannedCompleterGrade"))
+    })
+    private Doctor plannedCompleter;
+
     public Task() {}
 
     public boolean isCompleted() {
@@ -102,5 +109,13 @@ public class Task {
 
     public void setDateCompleted(Date dateCompleted) {
         this.dateCompleted = dateCompleted;
+    }
+
+    public Doctor getPlannedCompleter() {
+        return plannedCompleter;
+    }
+
+    public void setPlannedCompleter(Doctor plannedCompleter) {
+        this.plannedCompleter = plannedCompleter;
     }
 }

@@ -54,7 +54,7 @@ class TaskServiceTest {
 
     @Test
     void getAllBetweenDates() {
-        List<TaskDTO> all = service.getAllBetweenDates(DateUtils.getYesterday(), new Date(), pageRequest);
+        List<TaskDTO> all = service.getAllBetweenDates(DateUtils.getRecent(), new Date(), pageRequest);
         assertEquals(all.size(), 1);
         assertEquals(all.get(0).getDescription(), "Do some stuff");
         assertEquals(all.get(0).getPatientMrn(), "123");
@@ -184,6 +184,22 @@ class TaskServiceTest {
         assertTrue(completed.get().isCompleted());
         assertNotNull(completed.get().getDateCompleted());
 
+    }
+
+    @Test
+    void claim() {
+        // GIVEN
+        Task t = new Task();
+        t = service.tr.save(t);
+        Doctor d = new Doctor("Dr Stephens", "22");
+        // WHEN
+        Optional<TaskDTO> claimed = service.claim(d, t.getId());
+        // THEN
+        assertTrue(claimed.isPresent());
+        assertEquals(claimed.get().getPlannedCompleter().getName(), "Dr Stephens");
+        assertEquals(claimed.get().getPlannedCompleter().getGrade(), "22");
+        assertFalse(claimed.get().isCompleted());
+        assertNull(claimed.get().getDateCompleted());
     }
 
     @Test

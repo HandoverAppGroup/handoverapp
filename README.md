@@ -25,7 +25,7 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
 ## GET Endpoints
 
 - GET `/tasks` : list all tasks
-- GET `/tasks/today` : list all today's tasks
+- GET `/tasks/recent` : list all tasks created in the last 48 hours
 - GET `/tasks/uncompleted` : list all uncompleted tasks
 - GET `/tasks/{id}` : retrieve a task by id
 - GET `/tasks/byDate?earliestDate={yyyy-MM-dd-hh-mm}&latestDate={yyyy-MM-dd-hh-mm}` : list tasks within a certain date range
@@ -57,6 +57,10 @@ Note: all GET calls return the 200 status code if successful
     "name": "Dr. Donald Duck",
     "grade": "B"
   },
+  "plannedCompleter": {
+    "name": "Dr. Davidson",
+    "grade": "A"
+  },
   "completer": null
 }
 ```
@@ -77,6 +81,10 @@ Note: all GET calls return the 200 status code if successful
   "creator": {
     "name": "Dr. Banana",
     "grade": "bananas cannot have a grade"
+  },
+  "plannedCompleter": {
+    "name": "Dr. Davidson",
+    "grade": "A"
   },
   "completer": {
     "name": "Dr Richards",
@@ -111,6 +119,15 @@ Note: all GET calls return the 200 status code if successful
 {
   "name": "Dr. Donald Duck",
   "grade": "B"
+}
+```
+
+- POST `/tasks/{id}/claim` : claim a task (json body is a Doctor object who is the task completer) (successful claim will return 200 status code)
+
+```json
+{
+  "name": "Dr. Davidson",
+  "grade": "A"
 }
 ```
 

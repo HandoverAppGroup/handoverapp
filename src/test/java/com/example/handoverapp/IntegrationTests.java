@@ -99,6 +99,34 @@ public class IntegrationTests {
 
     }
 
+    @Test
+    public void claimTaskShouldSetPlannedCompleter() throws Exception {
+        // GIVEN
+
+        MvcResult mvcResult = mockMvc.perform(post("/api/tasks")
+                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward B bed 2\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String location = mvcResult.getResponse().getHeader("Location");
+
+        // WHEN
+
+        mockMvc.perform(post(location+"/claim")
+                .content("{\"name\":\"Dr Stephens\",\"grade\":\"A\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        // THEN
+
+        mockMvc.perform(get(location)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value("Do some things"))
+                .andExpect(jsonPath("$.plannedCompleter.name").value("Dr Stephens"))
+                .andExpect(jsonPath("$.plannedCompleter.grade").value("A"));
+
+    }
+
 
     @Test
     @WithMockUser
@@ -153,13 +181,15 @@ public class IntegrationTests {
         String location = mvcResult.getResponse().getHeader("Location");
 
         mockMvc.perform(put(location)
-                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward A bed 2\"}")
+                .content("{\"description\":\"Do some things\",\"patientMrn\":\"12345\",\"patientLocation\":\"Ward A bed 2\",\"plannedCompleter\":{\"name\":\"Jennifer\", \"grade\":\"A\"}}}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get(location))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value("Do some things"))
+                .andExpect(jsonPath("$.plannedCompleter.name").value("Jennifer"))
+                .andExpect(jsonPath("$.plannedCompleter.grade").value("A"))
                 .andExpect(jsonPath("$.patientLocation").value("Ward A bed 2"));
     }
 

@@ -78,13 +78,13 @@ public class TaskController {
         return ResponseEntity.ok().body(responseBody);
     }
 
-    @GetMapping("/tasks/today")
-    ResponseEntity<List<TaskDTO>> today(
+    @GetMapping("/tasks/recent")
+    ResponseEntity<List<TaskDTO>> recent(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "30") int size
     ) {
         Pageable paging = PageRequest.of(page, size);
-        List<TaskDTO> responseBody = taskService.getAllBetweenDates(DateUtils.getYesterday(), new Date(), paging);
+        List<TaskDTO> responseBody = taskService.getAllBetweenDates(DateUtils.getRecent(), new Date(), paging);
         return ResponseEntity.ok().body(responseBody);
     }
 
@@ -110,6 +110,12 @@ public class TaskController {
     ResponseEntity<TaskDTO> completeTask(@PathVariable("id") Long id, @Valid @RequestBody Doctor doctor) {
         TaskDTO completed = taskService.complete(doctor, id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));
         return ResponseEntity.ok().body(completed);
+    }
+
+    @PostMapping("/tasks/{id}/claim")
+    ResponseEntity<TaskDTO> claimTask(@PathVariable("id") Long id, @Valid @RequestBody Doctor doctor) {
+        TaskDTO claimed = taskService.claim(doctor, id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));
+        return ResponseEntity.ok().body(claimed);
     }
 
     // PUT endpoints
