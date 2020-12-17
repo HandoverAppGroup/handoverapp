@@ -22,6 +22,22 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
 - Persistence layer managed by JPA, although some custom SQL queries are used
 - Sends and receives data using a DTO (Data Transfer Object) for convenience so that separate patient objects do not need to be explicitly created by the user. A new patient is automatically created if needed.
 
+## Authentication
+
+### Post a valid username and password to obtain a JWT token that will enable you to use the secured API
+
+- POST `/login`
+
+```json
+{
+  "username": avalidusername,
+  "password": avalidpassword
+}
+```
+- The returned response will have the 200 status code if login was successful and *the JWT token will be set in the Authorization header*.
+
+### After you have a valid JWT token, that will be of the form `xxx.yyy.zzz`, you need to send this token *with every request* in the Authorization header (`Authorization: Bearer xxx.yyy.zzz`)
+
 ## GET Endpoints
 
 - GET `/tasks` : list all tasks
