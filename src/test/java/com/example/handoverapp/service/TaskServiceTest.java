@@ -140,13 +140,13 @@ class TaskServiceTest {
         dto.setDescription("A random task");
         dto.setPatientMrn("12345678");
         dto.setCreator(new Doctor("Dr Woods", "B"));
-        Optional<TaskDTO> created = service.update(dto, task.getId());
+        Optional<TaskDTO> updated = service.update(dto, task.getId());
         // THEN
-        assertTrue(created.isPresent());
+        assertTrue(updated.isPresent());
         assertTrue(service.pr.findByMrn("12345678").isPresent());
-        assertEquals(created.get().getPatientMrn(), "12345678");
-        assertEquals(created.get().getCreator().getName(), "Dr Woods");
-        assertEquals(created.get().getDescription(), "A random task");
+        assertEquals(updated.get().getPatientMrn(), "12345678");
+        assertEquals(updated.get().getCreator().getName(), "Dr Woods");
+        assertEquals(updated.get().getDescription(), "A random task");
     }
 
     @Test
@@ -162,11 +162,32 @@ class TaskServiceTest {
         // WHEN
         TaskDTO dto = new TaskDTO();
         dto.setPatientMrn("99");
-        Optional<TaskDTO> created = service.update(dto, task.getId());
+        Optional<TaskDTO> updated = service.update(dto, task.getId());
         // THEN
-        assertTrue(created.isPresent());
-        assertEquals(created.get().getPatientMrn(), "99");
-        assertEquals(created.get().getPatientClinicalSummary(), "Blah blah blah");
+        assertTrue(updated.isPresent());
+        assertEquals(updated.get().getPatientMrn(), "99");
+        assertEquals(updated.get().getPatientClinicalSummary(), "Blah blah blah");
+    }
+
+    @Test
+    void updateTaskCanUpdateExistingPatient() {
+        // GIVEN
+        Task task = new Task();
+        task.setDescription("A task description");
+        task = service.tr.save(task);
+        Patient p = new Patient();
+        p.setMrn("99");
+        p.setClinicalSummary("Blah blah blah");
+        service.pr.save(p);
+        // WHEN
+        TaskDTO dto = new TaskDTO();
+        dto.setPatientMrn("99");
+        dto.setPatientClinicalSummary("A new, updated clinical summary");
+        Optional<TaskDTO> updated = service.update(dto, task.getId());
+        // THEN
+        assertTrue(updated.isPresent());
+        assertEquals(updated.get().getPatientMrn(), "99");
+        assertEquals(updated.get().getPatientClinicalSummary(), "A new, updated clinical summary");
     }
 
     @Test
@@ -203,7 +224,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void createNewTaskCanCreateNewPatient() {
+    void createNewTaskCanUpdateExistingPatient() {
         // GIVEN
         Patient p = new Patient();
         p.setMrn("99");
@@ -211,25 +232,28 @@ class TaskServiceTest {
         service.pr.save(p);
         TaskDTO dto = new TaskDTO();
         dto.setPatientMrn("99");
+        dto.setPatientClinicalSummary("An updated clinical summary");
         dto.setDescription("Do some stuff");
         // WHEN
         TaskDTO created = service.create(dto);
         // THEN
         assertTrue(service.pr.findByMrn("99").isPresent());
-        assertEquals(service.pr.findByMrn("99").get().getClinicalSummary(), "Blah blah blah");
+        assertEquals(service.pr.findByMrn("99").get().getClinicalSummary(), "An updated clinical summary");
         assertEquals(created.getDescription(), "Do some stuff");
     }
 
     @Test
-    void createNewTaskCanUseExistingPatient() {
+    void createNewTaskCanCreateNewPatient() {
         // GIVEN
         TaskDTO dto = new TaskDTO();
         dto.setPatientMrn("99");
+        dto.setPatientClinicalSummary("A clinical summary");
         dto.setDescription("Do some stuff");
         // WHEN
         TaskDTO created = service.create(dto);
         // THEN
         assertTrue(service.pr.findByMrn("99").isPresent());
+        assertEquals(service.pr.findByMrn("99").get().getClinicalSummary(),"A clinical summary");
         assertEquals(created.getDescription(), "Do some stuff");
     }
 }

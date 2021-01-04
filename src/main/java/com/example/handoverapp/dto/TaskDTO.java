@@ -7,6 +7,7 @@ import com.example.handoverapp.entity.Task;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
+// Create patients and tasks using a single DTO
 public class TaskDTO {
 
     private long id;
@@ -17,12 +18,14 @@ public class TaskDTO {
     private String description;
     private String gradeRequired;
 
+    // Used to generate a new Patient object if none exists for this mrn
     @NotBlank(message = "Please provide patient mrn")
     private String patientMrn;
     private String patientClinicalSummary;
     @NotBlank(message = "Please provide patient location")
     private String patientLocation;
 
+    // Doctors are embedded in the Task table
     private Doctor creator;
     private Doctor completer;
     private Doctor plannedCompleter;

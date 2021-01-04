@@ -14,6 +14,7 @@ import java.util.Date;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
+    // @Query annotation used to specify custom SQL query using special JPA syntax
     @Query("select t from Task t order by t.dateCreated desc")
     Page<Task> findAllOrderByDate(Pageable pageable);
 
