@@ -96,6 +96,9 @@ public class TaskService {
         return s != null && !s.trim().isEmpty();
     }
 
+    // Returns the Patient to be assigned to a task
+    // If a patient does not exist for the mrn, it creates a new one using the data provided
+    // Otherwise it updates an existing patient record
     private Patient updatePatientOrCreateNew(String mrn, String clinicalSummary, String location) {
         Optional<Patient> p = pr.findByMrn(mrn);
         Patient patient;

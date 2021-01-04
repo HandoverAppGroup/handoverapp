@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public class DateUtils {
 
+
+    // Gets the date of 2 days ago for use in the get recent tasks endpoint
     public static Date getRecent() {
         Date today = new Date();
         LocalDateTime recentCutOff = LocalDateTime.ofInstant(today.toInstant(), ZoneId.systemDefault()).minusDays(2);

@@ -28,7 +28,10 @@ public class TaskController {
     }
 
     // GET endpoints
+    // All GET endpoints are paginated by default, with 30 items per page
+    // Tasks are ordered by date, with most recent tasks at the top
 
+    // Returns all tasks
     @GetMapping("/tasks")
     ResponseEntity<List<TaskDTO>> all(
             @RequestParam(defaultValue = "0") int page,
@@ -39,6 +42,7 @@ public class TaskController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    // Returns tasks in a certain date range
     @GetMapping("/tasks/byDate")
     ResponseEntity<List<TaskDTO>> byDate(
             @RequestParam String earliestDate,
@@ -57,6 +61,7 @@ public class TaskController {
         }
     }
 
+    // Returns tasks for a patient
     @GetMapping("/tasks/byPatient")
     ResponseEntity<List<TaskDTO>> byPatient(
             @RequestParam String mrn,
@@ -68,6 +73,7 @@ public class TaskController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    // Returns all uncompleted tasks
     @GetMapping("/tasks/uncompleted")
     ResponseEntity<List<TaskDTO>> uncompleted(
             @RequestParam(defaultValue = "0") int page,
@@ -78,6 +84,8 @@ public class TaskController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+
+    // Returns tasks created in the last 2 days
     @GetMapping("/tasks/recent")
     ResponseEntity<List<TaskDTO>> recent(
             @RequestParam(defaultValue = "0") int page,
@@ -88,6 +96,7 @@ public class TaskController {
         return ResponseEntity.ok().body(responseBody);
     }
 
+    // Returns task with a certain id
     @GetMapping("/tasks/{id}")
     ResponseEntity<TaskDTO> getById(@PathVariable("id") Long id) {
         TaskDTO task = taskService.getById(id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));
@@ -96,6 +105,7 @@ public class TaskController {
 
     // POST endpoints
 
+    // Create a new task using a task dto object
     @PostMapping("/tasks")
     ResponseEntity<TaskDTO> createTask(@Valid @RequestBody TaskDTO tdto) {
         TaskDTO created = taskService.create(tdto);
@@ -106,12 +116,14 @@ public class TaskController {
         return ResponseEntity.created(location).build();
     }
 
+    // Complete a task by posting doctor information to the complete endpoint
     @PostMapping("/tasks/{id}/complete")
     ResponseEntity<TaskDTO> completeTask(@PathVariable("id") Long id, @Valid @RequestBody Doctor doctor) {
         TaskDTO completed = taskService.complete(doctor, id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));
         return ResponseEntity.ok().body(completed);
     }
 
+    // Claim a task by posting doctor information to the claim endpoint
     @PostMapping("/tasks/{id}/claim")
     ResponseEntity<TaskDTO> claimTask(@PathVariable("id") Long id, @Valid @RequestBody Doctor doctor) {
         TaskDTO claimed = taskService.claim(doctor, id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));
@@ -120,6 +132,8 @@ public class TaskController {
 
     // PUT endpoints
 
+    // Edit a task with an updated TaskDTO object
+    // Changes in id are ignored as this is a put endpoint
     @PutMapping("/tasks/{id}")
     ResponseEntity<TaskDTO> update(@PathVariable("id") Long id, @Valid @RequestBody TaskDTO tdto) {
         TaskDTO task = taskService.update(tdto, id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));
@@ -128,6 +142,7 @@ public class TaskController {
 
     // DELETE endpoints
 
+    // Delete a task with a certain id
     @DeleteMapping("/tasks/{id}")
     ResponseEntity<?> deleteTask(@PathVariable("id") Long id) {
         TaskDTO task = taskService.getById(id).orElseThrow(() -> new TaskNotFoundException("No task found for this id"));

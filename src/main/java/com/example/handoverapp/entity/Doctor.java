@@ -3,6 +3,7 @@ package com.example.handoverapp.entity;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 
+// Doctors are embedded in the task table
 @Embeddable
 public class Doctor {
     @NotBlank(message = "Please provide name")

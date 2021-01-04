@@ -24,6 +24,8 @@ public class Task {
     @JoinColumn
     private Patient patient;
 
+
+    // Attribute overrides are used so that 3 doctor objects can be embedded in the task table without clashing repeated column names
     @Embedded
     @AttributeOverrides(value = {
             @AttributeOverride(name = "name", column = @Column(name = "creatorName")),
