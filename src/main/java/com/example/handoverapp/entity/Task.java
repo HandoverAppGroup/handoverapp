@@ -17,6 +17,8 @@ public class Task {
     private boolean completed = false;
     private final Date dateCreated = new Date();
     private Date dateCompleted;
+
+    @Column(length = 1000)
     private String description;
     private String gradeRequired;
 

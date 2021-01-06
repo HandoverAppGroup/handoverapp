@@ -7,6 +7,7 @@ public class Patient  {
 
     @Id
     private String mrn;
+    @Column(length = 1000)
     private String clinicalSummary;
     private String location;
 
