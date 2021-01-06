@@ -13,7 +13,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.example.handoverapp.security.SecurityConstants.SIGN_UP_URL;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static com.example.handoverapp.security.SecurityConstants.*;
 
 // Adapted from https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot/
 
