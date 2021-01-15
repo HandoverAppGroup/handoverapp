@@ -34,7 +34,7 @@ You check out the deployed api [here](https://handoverapp.herokuapp.com/api/task
   "password": avalidpassword
 }
 ```
-- The returned response will have the 200 status code if login was successful and *the JWT token will be set in the Authorization header*.
+- The returned response will have the 200 status code if login was successful and *the JWT token will be sent back in the body*.
 
 ### After you have a valid JWT token, that will be of the form `xxx.yyy.zzz`, you need to send this token *with every request* in the Authorization header (`Authorization: Bearer xxx.yyy.zzz`)
 
