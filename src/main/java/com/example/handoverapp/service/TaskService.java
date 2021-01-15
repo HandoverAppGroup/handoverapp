@@ -117,6 +117,8 @@ public class TaskService {
         return pr.save(patient);
     }
 
+
+    // Contains logic to update an existing task based on a taskDTO object
     private Task updateFromDTO(TaskDTO taskDTO, Task taskToUpdate) {
         String mrn = taskDTO.getPatientMrn();
         if (isNotNullOrEmpty(mrn)) {

@@ -49,11 +49,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
+
+    // Need to enable CORS on the level of spring security, even though it is enabled on the level of spring boot
+    // Without this bean cross-origin requests would be blocked by spring security
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.applyPermitDefaultValues();
+        // Default permitted methods must be extended for PUT and DELETE so that full api is usable from the front end
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
         source.registerCorsConfiguration("/**", config);

@@ -2,7 +2,6 @@ package com.example.handoverapp.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -18,11 +17,7 @@ public class DateUtils {
         return Date.from(recentCutOff.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public static String stringFromDate(Date date) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
-        return df.format(date);
-    }
-
+    // This method is used for the get tasks between 2 dates endpoint
     public static Optional<Date> dateFromString(String string) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
         try {

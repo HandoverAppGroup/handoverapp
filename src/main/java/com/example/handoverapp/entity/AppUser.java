@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 public class AppUser {
+    // Unique id is generated automatically
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

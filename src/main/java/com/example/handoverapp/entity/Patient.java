@@ -1,12 +1,13 @@
 package com.example.handoverapp.entity;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Patient  {
 
+    // Unique id is generated automatically
     @Id
     private String mrn;
+    // Increase the length limit as this field is often long
     @Column(length = 1000)
     private String clinicalSummary;
     private String location;

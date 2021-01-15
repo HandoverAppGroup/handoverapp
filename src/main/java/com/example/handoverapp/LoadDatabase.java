@@ -15,7 +15,7 @@ class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    // Inject some mock data into the database so that Json can be examined straight away when manually testing
+// Uncomment this code to inject some mock data into the database so that Json can be examined straight away when manually testing
 //
 //    @Bean
 //    CommandLineRunner initDatabase(TaskRepository repository) {

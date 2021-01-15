@@ -1,15 +1,13 @@
 package com.example.handoverapp.entity;
 
-import com.example.handoverapp.dto.TaskDTO;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 
 @Entity
 public class Task {
 
+    // Unique id is generated automatically
     @Id
     @GeneratedValue
     private long id;
@@ -18,6 +16,7 @@ public class Task {
     private final Date dateCreated = new Date();
     private Date dateCompleted;
 
+    // Increase the length limit as this field is often long
     @Column(length = 1000)
     private String description;
     private String gradeRequired;

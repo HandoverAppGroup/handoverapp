@@ -11,13 +11,16 @@ class TaskDTOTest {
 
     @Test
     void dtoFromEntity() {
+        // Given
         Task entity = new Task();
         entity.setGradeRequired("ABC");
         entity.setDescription("Do these things");
         entity.setPatient(new Patient("ABC123","Very ill","Ward 2 Bed 5"));
         entity.setCreator(new Doctor("Dr Stephens","B"));
         entity.setPlannedCompleter(new Doctor("Dr Davidson","C"));
+        // When
         TaskDTO dto = new TaskDTO(entity);
+        // Then
         assertEquals(dto.getPatientMrn(), "ABC123");
         assertEquals(dto.getPatientLocation(), "Ward 2 Bed 5");
         assertEquals(dto.getPatientClinicalSummary(), "Very ill");
